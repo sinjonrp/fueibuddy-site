@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ふうえいバディ（FueiBuddy）のサポートページ。よくある質問とお問い合わせ先。">
+<title>サポート | ふうえいバディ</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; background: none; border: none; }
+
+  :root {
+    --brand: #4E3A66;
+    --brand-dark: #3B2C4E;
+    --brand-light: #6A548A;
+    --accent: #8F6B1E;
+    --bg: #F8F6FA;
+    --surface: #FFFFFF;
+    --border: #DFD8E8;
+    --text: #26202E;
+    --text-muted: #6B6376;
+    --text-soft: #948BA3;
+    --footer-bg: #26202E;
+    --footer-text: #EDE7F3;
+    --footer-muted: #A79BB8;
+    --focus: #8F6B1E;
+    --font-heading: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', sans-serif;
+    color-scheme: light;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--font-body);
+    line-height: 1.85; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden;
+  }
+  h1, h2 { color: var(--text); line-height: 1.5; font-weight: 700; font-family: var(--font-heading); }
+  p, li { color: var(--text); }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+
+  header.site-header {
+    position: sticky; top: 0; z-index: 60; background: rgba(248,246,250,0.9);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border);
+  }
+  .header-inner { max-width: 1120px; margin: 0 auto; padding: 0 clamp(18px, 5vw, 44px); height: 64px; display: flex; align-items: center; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+  .brand-badge { width: 36px; height: 36px; background: var(--brand); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(78,58,102,0.3); flex-shrink: 0; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .brand-ja { font-family: var(--font-heading); font-weight: 700; font-size: 16.5px; }
+  .brand-en { font-size: 9.5px; letter-spacing: 0.18em; color: var(--text-soft); font-weight: 600; }
+  .site-nav { margin-left: auto; display: flex; align-items: center; gap: clamp(12px, 3vw, 24px); }
+  .site-nav a { font-size: 13.5px; font-weight: 600; color: var(--text-muted); text-decoration: none; }
+  .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--accent); }
+  @media (max-width: 600px) { .site-nav { display: none; } }
+
+  main { display: block; }
+  .container { max-width: 720px; margin-inline: auto; padding-inline: clamp(1.1rem, 4vw, 2.5rem); padding-block: clamp(2.4rem, 5vw, 3.8rem) clamp(3rem, 5vw, 4.5rem); }
+
+  .back-link { display: inline-block; margin-bottom: 1.4rem; font-size: 0.85rem; color: var(--text-soft); text-decoration: none; border-bottom: 1px solid transparent; }
+  .back-link:hover { color: var(--brand-dark); border-color: var(--border); }
+
+  .page-title { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); margin-bottom: 1rem; }
+  .lead { color: var(--text-muted); max-width: 34em; margin-bottom: 2.4rem; font-size: 0.98rem; }
+
+  .support-card { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: clamp(1.4rem, 3vw, 2.2rem) clamp(1.4rem, 3.5vw, 2.4rem); margin-bottom: 1.6rem; }
+  .support-card:last-child { margin-bottom: 0; }
+
+  h2 { font-size: 1.02rem; margin-bottom: 1rem; color: var(--brand-dark); }
+  .support-card p { margin-bottom: 0.9rem; font-size: 0.96rem; }
+  .support-card p:last-child { margin-bottom: 0; }
+  .support-card a { color: var(--accent); border-bottom: 1px solid rgba(143,107,30,0.35); text-decoration: none; }
+  .support-card a:hover { color: var(--brand); border-color: rgba(78,58,102,0.4); }
+
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 0.1rem 1.1rem; }
+  .faq-item summary { cursor: pointer; list-style: none; padding: 0.95rem 0; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 12px; font-size: 0.96rem; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary .q-mark { font-family: var(--font-heading); font-weight: 700; color: var(--accent); font-size: 1.05rem; flex-shrink: 0; }
+  .faq-item summary .q-text { flex: 1; }
+  .faq-item summary .chev { flex-shrink: 0; color: var(--text-soft); font-size: 0.8rem; transition: transform 0.2s; }
+  .faq-item[open] summary .chev { transform: rotate(180deg); }
+  .faq-item .faq-a { padding: 0 0 1.05rem 1.75rem; color: var(--text-muted); font-size: 0.92rem; line-height: 1.9; }
+
+  footer.site-footer { background: var(--footer-bg); color: var(--footer-text); margin-top: clamp(2.5rem, 6vw, 4rem); }
+  .footer-inner { max-width: 1120px; margin: 0 auto; padding: clamp(40px, 6vw, 60px) clamp(18px, 5vw, 44px) 32px; }
+  .footer-top { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; justify-content: space-between; }
+  .footer-brand-row { display: flex; align-items: center; gap: 10px; }
+  .footer-badge { width: 32px; height: 32px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .footer-ja { font-family: var(--font-heading); font-weight: 700; font-size: 16.5px; color: #fff; }
+  .footer-tagline { margin: 12px 0 0; font-size: 13px; color: var(--footer-muted); }
+  .footer-links { display: flex; gap: 20px; padding-top: 6px; flex-wrap: wrap; }
+  .footer-links a { font-size: 13.5px; color: #D8CBE6; text-decoration: none; border-bottom: 1px solid rgba(216,203,230,0.35); padding-bottom: 2px; }
+  .footer-links a:hover, .footer-links a[aria-current="page"] { color: #fff; border-bottom-color: #fff; }
+  .footer-bottom { margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: var(--footer-muted); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"/><rect x="8" y="10" width="9" height="6" fill="#8F6B1E"/></svg></span>
+      <span class="brand-text">
+        <span class="brand-ja">ふうえいバディ</span>
+        <span class="brand-en">FUEIBUDDY</span>
+      </span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">トップへ</a>
+      <a href="privacy.html">プライバシー</a>
+      <a href="support.html" aria-current="page">サポート</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="container">
+  <a class="back-link" href="index.html">&larr; ふうえいバディ トップへ</a>
+
+  <h1 class="page-title">ふうえいバディ サポート</h1>
+  <p class="lead">行政書士向けの風営法許可・届出業務支援アプリです。求積計算・開店日逆算スケジュール・案件管理・書類チェック・現地調査記録まで、スマホ1台でご利用いただけます。</p>
+
+  <div class="support-card">
+    <h2>よくある質問</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary><span class="q-mark">Q</span><span class="q-text">データはどこに保存されますか?</span><span class="chev">▾</span></summary>
+        <p class="faq-a">入力した案件情報や写真、計算結果、設定はすべてお使いの端末内に保存されます。開発者のサーバーに送信されることはありません。</p>
+      </details>
+      <details class="faq-item">
+        <summary><span class="q-mark">Q</span><span class="q-text">機種変更時にデータは引き継げますか?</span><span class="chev">▾</span></summary>
+        <p class="faq-a">現バージョンではアプリ内にデータ移行機能はありません。端末内保存のため、iOSの機種移行(クイックスタート/iCloudバックアップからの復元)をご利用ください。</p>
+      </details>
+      <details class="faq-item">
+        <summary><span class="q-mark">Q</span><span class="q-text">許可が取れるかどうかの適否判定はしてくれませんか?</span><span class="chev">▾</span></summary>
+        <p class="faq-a">はい、判定は行いません。本アプリは距離・面積・照度などの数値を記録・計算するための業務ツールです。基準への適合・不適合の判断は、必ず管轄の警察署(生活安全課等)にご確認ください。</p>
+      </details>
+      <details class="faq-item">
+        <summary><span class="q-mark">Q</span><span class="q-text">距離や面積の基準値をなぜアプリに内蔵しないのですか?</span><span class="chev">▾</span></summary>
+        <p class="faq-a">距離基準・面積基準・照度基準等は都道府県の条例や運用によって異なるため、特定の数値を基準として内蔵すると誤った判断につながる恐れがあります。そのため本アプリでは数値マスタを内蔵せず、初期値の提示と記録・計算にとどめています。</p>
+      </details>
+      <details class="faq-item">
+        <summary><span class="q-mark">Q</span><span class="q-text">お問い合わせ先を教えてください</span><span class="chev">▾</span></summary>
+        <p class="faq-a">不具合のご報告・ご要望は <a href="mailto:sinjonrp@gmail.com">sinjonrp@gmail.com</a> へお願いします。件名に「ふうえいバディ」と記載してください。</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="support-card">
+    <h2>お問い合わせ</h2>
+    <p>不具合のご報告・ご要望は <a href="mailto:sinjonrp@gmail.com">sinjonrp@gmail.com</a> へ。件名に「ふうえいバディ」と記載してください。</p>
+  </div>
+
+  <div class="support-card">
+    <h2>プライバシーポリシー</h2>
+    <p><a href="privacy.html">プライバシーポリシーはこちら</a></p>
+  </div>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-row">
+          <span class="footer-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"/></svg></span>
+          <span class="footer-ja">ふうえいバディ</span>
+        </div>
+        <p class="footer-tagline">現地調査・求積・開店日逆算を、物件の中で。</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">トップへ</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="support.html" aria-current="page">サポート</a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 FueiBuddy</div>
+  </div>
+</footer>
+
+</body>
+</html>
