@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ふうえいバディ｜行政書士の風営法許可業務を、物件の中で完結。</title>
+<meta name="description" content="行政書士向けの風営法許可・届出業務支援アプリ「ふうえいバディ」。求積計算・開店日逆算スケジュール・案件管理・書類チェック・現地調査記録まで、登録不要・データは端末内のみ・完全オフラインで使えます。">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  a { color: inherit; }
+
+  :root {
+    --brand: #4E3A66;
+    --brand-dark: #3B2C4E;
+    --brand-light: #6A548A;
+    --accent: #8F6B1E;
+    --accent-light: #B08A3C;
+    --bg: #F8F6FA;
+    --surface: #FFFFFF;
+    --surface-muted: #F1EDF5;
+    --border: #DFD8E8;
+    --text: #26202E;
+    --text-muted: #6B6376;
+    --text-soft: #948BA3;
+    --footer-bg: #26202E;
+    --footer-text: #EDE7F3;
+    --footer-muted: #A79BB8;
+    --focus: #8F6B1E;
+    --font-heading: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', sans-serif;
+    color-scheme: light;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { color: var(--text); font-weight: 700; font-family: var(--font-heading); line-height: 1.5; }
+  a:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  [id] { scroll-margin-top: 84px; }
+  summary { list-style: none; cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+
+  @media (max-width: 600px) {
+    header nav { display: none !important; }
+  }
+
+  /* ============ Header ============ */
+  header.site-header {
+    position: sticky; top: 0; z-index: 60;
+    background: rgba(248, 246, 250, 0.9);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 1120px; margin: 0 auto; padding: 0 clamp(18px, 5vw, 44px);
+    height: 64px; display: flex; align-items: center; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+  .brand-badge {
+    width: 36px; height: 36px; background: var(--brand);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(78,58,102,0.3);
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .brand-ja { font-family: var(--font-heading); font-weight: 700; font-size: 16.5px; }
+  .brand-en { font-size: 9.5px; letter-spacing: 0.18em; color: var(--text-soft); font-weight: 600; }
+  .site-nav { margin-left: auto; display: flex; align-items: center; gap: clamp(14px, 3vw, 28px); }
+  .site-nav a { font-size: 13.5px; font-weight: 600; color: var(--text-muted); text-decoration: none; }
+  .site-nav a:hover { color: var(--accent); }
+
+  /* ============ Layout helpers ============ */
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 clamp(18px, 5vw, 44px); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; color: var(--accent);
+    font-weight: 700; font-size: 13px; letter-spacing: 0.16em;
+  }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 2.5px; background: var(--accent); display: inline-block; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 999px; padding: 7px 13px;
+    font-size: 12.5px; font-weight: 600; color: var(--text);
+  }
+  .pill svg { flex-shrink: 0; }
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 12px; background: var(--text);
+    color: #fff; text-decoration: none; border-radius: 14px; padding: 12px 24px 12px 18px;
+    box-shadow: 0 12px 26px rgba(38,32,46,0.24);
+  }
+  .btn-cta .label-en { font-size: 11px; color: rgba(255,255,255,0.72); letter-spacing: 0.06em; }
+  .btn-cta .label-ja { font-family: var(--font-heading); font-size: 18px; font-weight: 700; }
+
+  /* ============ Hero ============ */
+  #hero { position: relative; overflow: hidden; }
+  .hero-inner {
+    display: flex; flex-wrap: wrap; align-items: center; gap: clamp(40px, 6vw, 72px);
+    padding: clamp(48px, 8vw, 88px) 0 clamp(40px, 6vw, 72px);
+  }
+  .hero-copy { flex: 1 1 460px; min-width: 0; }
+  .hero-badge {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 9px;
+    background: var(--surface-muted); border: 1px solid var(--border); color: var(--brand-dark);
+    border-radius: 18px; padding: 7px 16px; font-size: 13px; font-weight: 700; line-height: 1.6;
+  }
+  .hero-badge .led { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); display: inline-block; flex-shrink: 0; }
+  h1.hero-title { margin: 22px 0 0; font-weight: 900; font-size: clamp(30px, 5.2vw, 46px); line-height: 1.5; letter-spacing: 0.01em; }
+  h1.hero-title .accent { color: var(--accent); }
+  .hero-lede { margin: 22px 0 0; font-size: clamp(14.5px, 1.8vw, 16px); line-height: 2.15; color: var(--text-muted); max-width: 36em; }
+  .hero-actions { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .hero-actions .link-accent { font-size: 14px; font-weight: 700; color: var(--brand-dark); text-decoration: none; border-bottom: 2px solid var(--border); padding-bottom: 2px; }
+  .hero-note { margin: 14px 0 0; font-size: 12.5px; color: var(--text-soft); }
+  .hero-badges { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 9px; }
+
+  .hero-visual { flex: 1 1 320px; display: flex; justify-content: center; min-width: 0; }
+  .visual-card {
+    width: min(88vw, 380px); aspect-ratio: 1/1; background: var(--brand);
+    position: relative; box-shadow: 0 30px 60px rgba(78,58,102,0.32);
+  }
+  .visual-grid { position: absolute; inset: 0; opacity: 0.22; }
+  .visual-rect {
+    position: absolute; left: 24%; top: 38%; width: 44%; height: 26%;
+    background: var(--accent); border: 4px solid #fff;
+  }
+  .visual-dim { position: absolute; stroke: #fff; }
+
+  /* ============ Sections ============ */
+  section.panel { padding: clamp(60px, 8vw, 100px) 0; }
+  section.panel.bordered { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-head { max-width: 680px; }
+  .section-head h2 { margin: 16px 0 0; font-size: clamp(24px, 4.2vw, 36px); }
+  .section-head p { margin: 16px 0 0; font-size: 14.5px; line-height: 2.1; color: var(--text-muted); }
+  .section-head.centered { max-width: 640px; margin: 0 auto; text-align: center; }
+
+  .feature-grid {
+    margin-top: clamp(32px, 5vw, 48px); display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px;
+  }
+  .feature-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+    padding: clamp(22px, 3vw, 28px); display: flex; flex-direction: column;
+  }
+  .feature-card .tag-row { display: flex; align-items: center; gap: 12px; }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .feature-icon.purple { background: var(--surface-muted); }
+  .feature-icon.gold { background: #F2E9D6; }
+  .feature-card .tag { font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; }
+  .feature-card h3 { margin: 14px 0 0; font-size: 17.5px; line-height: 1.65; }
+  .feature-list { margin-top: 12px; display: flex; flex-direction: column; }
+  .feature-list .item { padding: 11px 0; border-top: 1px solid var(--surface-muted); font-size: 13px; line-height: 1.9; color: var(--text-muted); }
+  .feature-list .item:first-child { border-top: none; }
+
+  .flow-panel { background: var(--brand); position: relative; overflow: hidden; }
+  .flow-grid { margin-top: clamp(32px, 5vw, 48px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 18px; }
+  .flow-card { background: #fff; border-radius: 18px; padding: 26px 24px; }
+  .flow-card .num { font-family: var(--font-heading); font-weight: 900; font-size: 36px; color: var(--accent); line-height: 1; }
+  .flow-card .step-label { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; color: var(--text-soft); }
+  .flow-card .flow-title { margin-top: 12px; font-size: 16px; font-weight: 700; line-height: 1.7; }
+  .flow-card p { margin: 8px 0 0; font-size: 13.5px; line-height: 2; color: var(--text-muted); }
+
+  .faq-list { margin-top: clamp(28px, 4vw, 40px); display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; }
+  .faq-item summary { display: flex; align-items: center; gap: 14px; padding: 17px 18px; font-size: 15px; font-weight: 700; line-height: 1.7; }
+  .faq-item summary .q-mark { font-family: var(--font-heading); font-weight: 700; color: var(--accent); font-size: 17px; flex-shrink: 0; }
+  .faq-item summary .q-text { flex: 1; }
+  .faq-item summary .chev { flex-shrink: 0; color: var(--text-soft); font-size: 0.85rem; transition: transform 0.2s; }
+  .faq-item[open] summary .chev { transform: rotate(180deg); }
+  .faq-item .faq-a { padding: 0 18px 18px 49px; font-size: 14px; line-height: 2.05; color: var(--text-muted); }
+
+  .download-card {
+    background: var(--brand); border-radius: 28px; padding: clamp(44px, 7vw, 76px) clamp(24px, 5vw, 64px);
+    text-align: center; position: relative; overflow: hidden; box-shadow: 0 24px 56px rgba(78,58,102,0.32);
+  }
+  .download-card h2 { color: #fff; font-size: clamp(24px, 4.2vw, 34px); }
+  .download-card p { margin: 16px auto 0; font-size: 14.5px; line-height: 2.1; color: #E4DCEC; max-width: 34em; }
+  .download-badges { margin-top: 24px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .download-badges span {
+    background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.32); color: #fff;
+    border-radius: 999px; padding: 6px 13px; font-size: 12px; font-weight: 600;
+  }
+  .download-fine { margin: 20px 0 0; font-size: 11.5px; color: #CFC1DC; }
+
+  .disclaimer-box {
+    margin-top: 32px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px; padding: 18px 20px;
+  }
+  .disclaimer-box .title { font-size: 12px; font-weight: 700; color: var(--footer-muted); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .disclaimer-box p { margin: 0; font-size: 12px; line-height: 2; color: var(--footer-muted); }
+
+  /* ============ Footer ============ */
+  footer.site-footer { background: var(--footer-bg); color: var(--footer-text); }
+  .footer-inner { max-width: 1120px; margin: 0 auto; padding: clamp(48px, 7vw, 72px) clamp(18px, 5vw, 44px) 36px; }
+  .footer-top { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; justify-content: space-between; }
+  .footer-brand-row { display: flex; align-items: center; gap: 10px; }
+  .footer-badge { width: 32px; height: 32px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .footer-ja { font-family: var(--font-heading); font-weight: 700; font-size: 16.5px; color: #fff; }
+  .footer-tagline { margin: 12px 0 0; font-size: 13px; color: var(--footer-muted); }
+  .footer-links { display: flex; gap: 22px; padding-top: 6px; flex-wrap: wrap; }
+  .footer-links a { font-size: 13.5px; color: #D8CBE6; text-decoration: none; border-bottom: 1px solid rgba(216,203,230,0.35); padding-bottom: 2px; }
+  .footer-links a:hover { color: #fff; border-bottom-color: #fff; }
+  .footer-bottom {
+    margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--footer-muted);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#hero">
+      <span class="brand-badge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"/><rect x="8" y="10" width="9" height="6" fill="#8F6B1E"/></svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-ja">ふうえいバディ</span>
+        <span class="brand-en">FUEIBUDDY</span>
+      </span>
+    </a>
+    <nav class="site-nav">
+      <a href="#features">機能一覧</a>
+      <a href="#flow">使い方</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section id="hero">
+    <div class="wrap">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="hero-badge">
+            <span class="led"></span>
+            <span>iOS版 近日公開<span style="font-weight:500;color:var(--brand-light)">・行政書士向け業務支援アプリ</span></span>
+          </div>
+
+          <h1 class="hero-title">
+            現地調査・求積・開店日逆算を、<br>
+            <span class="accent">物件の中で。</span>
+          </h1>
+
+          <p class="hero-lede">
+            風俗営業等の許可・届出（接待飲食等営業、まあじゃん・ぱちんこ営業、ゲームセンター営業等、深夜酒類提供飲食店営業届出、特定遊興飲食店営業）を扱う行政書士の先生のための業務支援アプリです。現地調査から申請準備までの実務を、スマホ1台でその場で完結できます。
+          </p>
+
+          <div class="hero-actions">
+            <a href="#download" class="btn-cta">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3.5v11M12 14.5l-4.5-4.5M12 14.5l4.5-4.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 17v2.5h15V17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="display:flex;flex-direction:column;text-align:left">
+                <span class="label-en">App Storeで</span>
+                <span class="label-ja">近日公開</span>
+              </span>
+            </a>
+            <a href="#features" class="link-accent">主な機能を見る ↓</a>
+          </div>
+          <p class="hero-note">登録不要・完全オフライン。公開まで、いましばらくお待ちください。</p>
+
+          <div class="hero-badges">
+            <span class="pill"><svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#8F6B1E"/><path d="M6.2 10.3l2.5 2.5 5.1-5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>登録不要</span>
+            <span class="pill"><svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#8F6B1E"/><path d="M6.2 10.3l2.5 2.5 5.1-5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>全データ端末内</span>
+            <span class="pill"><svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#8F6B1E"/><path d="M6.2 10.3l2.5 2.5 5.1-5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>オフライン動作</span>
+            <span class="pill"><svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#8F6B1E"/><path d="M6.2 10.3l2.5 2.5 5.1-5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>広告なし</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-card">
+            <svg class="visual-grid" viewBox="0 0 380 380" width="100%" height="100%">
+              <g stroke="#fff" stroke-width="1">
+                <line x1="0" y1="47.5" x2="380" y2="47.5"/><line x1="0" y1="95" x2="380" y2="95"/>
+                <line x1="0" y1="142.5" x2="380" y2="142.5"/><line x1="0" y1="190" x2="380" y2="190"/>
+                <line x1="0" y1="237.5" x2="380" y2="237.5"/><line x1="0" y1="285" x2="380" y2="285"/>
+                <line x1="0" y1="332.5" x2="380" y2="332.5"/>
+                <line x1="47.5" y1="0" x2="47.5" y2="380"/><line x1="95" y1="0" x2="95" y2="380"/>
+                <line x1="142.5" y1="0" x2="142.5" y2="380"/><line x1="190" y1="0" x2="190" y2="380"/>
+                <line x1="237.5" y1="0" x2="237.5" y2="380"/><line x1="285" y1="0" x2="285" y2="380"/>
+                <line x1="332.5" y1="0" x2="332.5" y2="380"/>
+              </g>
+            </svg>
+            <div class="visual-rect"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 対象・コンセプト ============ -->
+  <section class="panel bordered">
+    <div class="wrap">
+      <div class="section-head centered">
+        <span class="eyebrow"><span class="dot"></span>対象・コンセプト</span>
+        <h2>「基準への適合を判定する」アプリではありません。</h2>
+        <p>
+          距離・面積・照度などの基準は都道府県の条例や運用によって異なります。ふうえいバディは、それらの数値を現地でその場で記録・計算するための道具に徹し、適否の判定は行いません。実際の申請にあたっては、必ず管轄の警察署にご確認ください。行政書士の先生が、自分の業務を効率化するための専用ツールです。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 機能一覧 ============ -->
+  <section id="features" class="panel">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><span class="dot"></span>機能一覧</span>
+        <h2>現地調査から申請準備まで、<br>このアプリ1つで。</h2>
+        <p>案件の受任から許可・届出の受理まで。3つのタブに、業務に必要な道具をそろえました。</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="tag-row">
+            <span class="feature-icon gold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8F6B1E" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16"/><path d="M9 4v16M4 9h16"/></svg></span>
+            <span class="tag" style="color:var(--accent)">計算タブ</span>
+          </div>
+          <h3>求積計算と法定費用の見積を、その場で</h3>
+          <div class="feature-list">
+            <div class="item"><b style="color:var(--text)">求積計算（目玉機能）</b><br>客室・調理場などの区画を追加していくと、求積表と面積合計を自動作成。区分ごとの小計、営業所全体の合計、平米・坪・畳の換算に対応します。</div>
+            <div class="item"><b style="color:var(--text)">法定費用・報酬見積</b><br>申請手数料と事務所報酬から見積もりを作成し、テキストで共有できます。</div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="tag-row">
+            <span class="feature-icon purple"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4E3A66" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="16" height="16" rx="2"/><path d="M8 3v3M16 3v3M4 9.5h16"/></svg></span>
+            <span class="tag" style="color:var(--brand)">案件タブ</span>
+          </div>
+          <h3>案件と書類、スケジュールを一元管理</h3>
+          <div class="feature-list">
+            <div class="item"><b style="color:var(--text)">案件管理</b><br>店舗名・営業種別・管轄警察署・ステータスで案件を一覧管理します。</div>
+            <div class="item"><b style="color:var(--text)">書類チェック</b><br>営業種別ごとの必要書類プリセットで、準備状況をチェックリスト管理します。</div>
+            <div class="item"><b style="color:var(--text)">開店日逆算スケジュール（目玉機能）</b><br>開店予定日から申請デッドラインや物件確定期限を逆算し、土日祝を考慮したスケジュールを自動作成します。</div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="tag-row">
+            <span class="feature-icon gold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8F6B1E" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2L9 5h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.2"/></svg></span>
+            <span class="tag" style="color:var(--accent)">調査タブ</span>
+          </div>
+          <h3>現地の記録を、記憶ではなく記録に残す</h3>
+          <div class="feature-list">
+            <div class="item"><b style="color:var(--text)">現地調査記録</b><br>現地で撮影した写真と調査チェックリスト、保全対象施設との距離メモを記録します。</div>
+            <div class="item"><b style="color:var(--text)">構造チェックメモ</b><br>客室の見通し・照度・騒音などの確認項目を記録します。基準の適否は判定しません。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 利用の流れ ============ -->
+  <section id="flow" class="panel flow-panel">
+    <div class="wrap">
+      <div class="section-head centered">
+        <span class="eyebrow" style="color:#D8CBE6"><span class="dot" style="background:#D8CBE6"></span>使い方</span>
+        <h2 style="color:#fff">使いはじめは、かんたん3ステップ。</h2>
+      </div>
+      <div class="flow-grid">
+        <div class="flow-card">
+          <div class="num">1</div>
+          <div class="step-label">STEP</div>
+          <div class="flow-title">App Storeから無料ダウンロード</div>
+          <p>登録・ログインは一切不要。開いたその瞬間から使えます。</p>
+        </div>
+        <div class="flow-card">
+          <div class="num">2</div>
+          <div class="step-label">STEP</div>
+          <div class="flow-title">案件を登録し、現地で調査・採寸</div>
+          <p>店舗名・営業種別を登録したら、現地で写真・チェックリスト・区画の採寸をその場で入力します。</p>
+        </div>
+        <div class="flow-card">
+          <div class="num">3</div>
+          <div class="step-label">STEP</div>
+          <div class="flow-title">求積表とスケジュールをそのまま共有</div>
+          <p>求積表・逆算スケジュール・書類チェックの結果をテキストで共有し、事務所の作業に引き継げます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="panel bordered">
+    <div class="wrap" style="max-width:800px">
+      <div class="section-head centered">
+        <span class="eyebrow"><span class="dot"></span>よくある質問</span>
+        <h2>気になることに、先にお答えします。</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span><span class="q-text">許可が取れるかどうかを判定してくれますか？</span><span class="chev">▾</span></summary>
+          <div class="faq-a">判定は行いません。距離・面積・照度などの数値を記録・計算する道具に徹しています。基準は都道府県の条例や運用で異なるため、実際の適否は管轄の警察署に必ずご確認ください。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span><span class="q-text">依頼者に配布するアプリですか？</span><span class="chev">▾</span></summary>
+          <div class="faq-a">いいえ。行政書士の先生ご自身の業務効率化のためのツールです。依頼者への配布や、依頼者による直接利用は想定していません。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span><span class="q-text">入力したデータはどこに保存されますか？</span><span class="chev">▾</span></summary>
+          <div class="faq-a">すべてお使いの端末内に保存されます。会員登録は不要で、開発者のサーバーに送信されることはありません。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span><span class="q-text">電波のない現地でも使えますか？</span><span class="chev">▾</span></summary>
+          <div class="faq-a">使えます。すべての機能が完全オフラインで動作するため、電波の弱い店舗の内部でも安心して使えます。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span><span class="q-text">無料ですか？</span><span class="chev">▾</span></summary>
+          <div class="faq-a">無料でご利用いただけます。広告表示やアプリ内課金もありません。</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ダウンロード ============ -->
+  <section id="download" class="panel">
+    <div class="wrap">
+      <div class="download-card">
+        <h2>App Storeで、近日公開。</h2>
+        <p>iOS版の公開準備を進めています。登録不要・完全オフラインで、公開日からすぐにお使いいただけます。</p>
+        <div style="margin-top:28px;display:flex;justify-content:center">
+          <div class="btn-cta" style="background:#26202E">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3.5v11M12 14.5l-4.5-4.5M12 14.5l4.5-4.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 17v2.5h15V17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="display:flex;flex-direction:column;text-align:left">
+              <span class="label-en">App Storeで</span>
+              <span class="label-ja">近日公開</span>
+            </span>
+          </div>
+        </div>
+        <div class="download-badges">
+          <span>登録不要</span>
+          <span>全データ端末内</span>
+          <span>オフライン動作</span>
+          <span>広告なし</span>
+        </div>
+        <p class="download-fine">※公開時期は変更になる場合があります。</p>
+
+        <div class="disclaimer-box">
+          <div class="title">免責事項</div>
+          <p>本アプリで扱う数値（距離・面積・照度・標準処理期間・法定費用等）はいずれも目安・参考値であり、許可・届出の基準への適合を保証するものではありません。適否の判定は行いません。実際の申請にあたっては、必ず管轄の警察署（生活安全課等）にご確認ください。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-row">
+          <span class="footer-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"/></svg></span>
+          <span class="footer-ja">ふうえいバディ</span>
+        </div>
+        <p class="footer-tagline">現地調査・求積・開店日逆算を、物件の中で。</p>
+      </div>
+      <div class="footer-links">
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="support.html">サポート</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 FueiBuddy</span>
+      <span>iOS版 近日公開・行政書士向け業務支援アプリ</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
