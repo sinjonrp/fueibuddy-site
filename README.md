@@ -13,10 +13,10 @@
   - ページ内アンカー（#hero / #features / #flow / #faq / #download）と3ページの相互リンクは全て実在
   - 連絡先 sinjonrp@gmail.com・© 2026・プライバシーポリシー制定日 2026年7月7日 で整合。プレースホルダー・古い記述の残存なし
   - ストア導線は「App Storeで、近日公開。」表記（M4 ストア提出前の実態どおり。提出後に差し替え）
-- 未確認: GitHub Pages の有効化と公開URLの生存（Claude セッションからは github.io に到達できないため、ブラウザでの目視確認が必要）
+- **公開状態（GitHub API 実測 2026-07-17）: GitHub Pages 未有効（`has_pages: false`）。** リポジトリは public だが Pages 未設定のため、https://sinjonrp.github.io/fueibuddy-site/ は現時点で **404（未公開）**。Actions のデプロイ実行も 0 件で裏取り済み。＝ サイトはまだ世に出ていない
 - 掃除候補: `claude/site-initial` ブランチはマージ済み・main と同一内容のため削除可
 
 ## 次にやること
 
-1. ブラウザで https://sinjonrp.github.io/fueibuddy-site/ （と privacy.html / support.html）を開いて公開を目視確認。404 の場合はリポジトリの Settings → Pages で `main` / root を有効化する
+1. **サイトを公開する（最優先）**: リポジトリ Settings → Pages → Build and deployment で Source =「Deploy from a branch」、Branch = `main` / `/(root)` を選んで Save。数分後に https://sinjonrp.github.io/fueibuddy-site/ （+ privacy.html / support.html）が開くことを目視確認。※ Pages の有効化は repo 設定操作で、Claude 側に該当ツールがないためブラウザ実施が必要
 2. M4 ストア提出後、index.html のダウンロード節を App Store リンクに差し替える（正本 `site/` を先に更新してからコピー）
