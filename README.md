@@ -4,6 +4,7 @@
 
 - 正本は `sinjonrp/FueiBuddy` リポジトリの `site/` ディレクトリ。更新時はそちらを編集してからコピーする
 - 公開URL: https://sinjonrp.github.io/fueibuddy-site/
+- HIG 準拠レビュー用の `apple-design` スキル導入済み（`.claude/skills/apple-design/`・レビュー専用、2026-08-02 展開）。`/apple-design` や「HIGレビュー」で発動
 
 ## 現在地（2026-07-17 セーブ）
 
