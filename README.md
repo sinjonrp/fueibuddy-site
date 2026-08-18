@@ -17,28 +17,34 @@
 - **公開状態（GitHub API 実測 2026-07-17）: GitHub Pages 未有効（`has_pages: false`）。** リポジトリは public だが Pages 未設定のため、https://sinjonrp.github.io/fueibuddy-site/ は現時点で **404（未公開）**。Actions のデプロイ実行も 0 件で裏取り済み。＝ サイトはまだ世に出ていない
 - 掃除候補: `claude/site-initial` ブランチはマージ済み・main と同一内容のため削除可
 
-## 公開の仕組みと残手順（2026-08-17 更新）
+## ★ 公開停止中（2026-08-17〜）
 
-`.github/workflows/deploy-pages.yml` を追加済み。main への push で公式 Actions が3ページを `_site` に抽出して Pages へデプロイする（`.claude/` と README は公開物に含めない）。
+**GSdesk 統合方針により、ふうえいバディ単体のストア提出とサイト公開は停止。** 単体アプリを
+並べると App Store ガイドライン4.3（重複アプリ）のリスクを自分で作ることになるため
+（統合はそのリスクを構造的に消すのが狙いの一つ）。
 
-**ただし Pages 自体の有効化がまだ済んでいない。** ワークフロー内の `actions/configure-pages` に `enablement: true` を付けて自動有効化を試みたが、初回 run（#1）が次のエラーで失敗した:
+停止対象:
 
-```
-Create Pages site failed. Error: Resource not accessible by integration
-```
+- STORE.md 7章の提出13手順（ASC新規App作成・bundle ID 登録・EASビルド・TestFlight・
+  スクショ・メタデータ入力・Submit for Review）
+- 本リポジトリの GitHub Pages 有効化（Settings→Pages の操作を**行わない**）
+- J-PlatPat 商標確認
 
-これは Actions の `GITHUB_TOKEN` では Pages サイトの新規作成ができない（権限外）ためで、ワークフロー側では解決できない。**リポジトリ所有者による Settings 操作が一度だけ必要。**
+そのため `.github/workflows/deploy-pages.yml` の push トリガーを外し、**手動実行のみ**にした
+（誤って公開されないようにするため）。Pages 自体も未有効のまま（`has_pages: false`）。
 
-### 残手順（所有者が一度だけ実施）
+### 公開を再開するときの手順（統合方針の決着後）
 
-1. Settings → Pages → Build and deployment → Source を **GitHub Actions** にする
-   （「Deploy from a branch」で `main` / `/(root)` を選んでも公開はできるが、その場合 `.claude/` を含む全ファイルが配信対象になる。上記ワークフローは3ページだけを配信するので **GitHub Actions を推奨**）
-2. Actions タブから「Deploy GitHub Pages」を再実行（または main へ何か push）
-3. https://sinjonrp.github.io/fueibuddy-site/ ・ privacy.html ・ support.html が開くことを確認
+1. Settings → Pages → Source を **GitHub Actions** にする
+2. `deploy-pages.yml` の `on:` に push トリガーを戻す（または Actions タブから手動実行）
+3. https://sinjonrp.github.io/fueibuddy-site/ ・privacy.html ・support.html の表示を確認
 
-※ privacy.html が開けないことが、ふうえいバディの App Store 提出の最大ブロッカー。この設定だけで解ける。
+※ 過去に自動有効化（`actions/configure-pages` の `enablement: true`）を試みたが、Actions の
+`GITHUB_TOKEN` では Pages サイトを作成できず失敗した（`Resource not accessible by integration`）。
+再開時も Settings 操作は人手で行う必要がある。
 
 ## 次にやること
 
-1. **上記の Pages 有効化（最優先・提出ブロッカー）**
-2. M4 ストア提出後、index.html のダウンロード節を App Store リンクに差し替える（正本 `site/` を先に更新してからコピー）
+1. なし（公開停止中）。GSdesk 統合方針の決着まで、本リポジトリへの公開系の作業は行わない
+2. 再開時: 上記「公開を再開するときの手順」に従う。ストア提出後は index.html のダウンロード節を
+   App Store リンクに差し替える（正本 `site/` を先に更新してからコピー）
