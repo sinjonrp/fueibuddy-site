@@ -1,12 +1,17 @@
-# GitHub Pages へのデプロイ（main への push で自動実行）。
-# Settings→Pages の手動有効化の代わりに、configure-pages の enablement で
-# サイト作成を試みる（成功すれば公開URLが生きる）。
+# GitHub Pages へのデプロイ。
+#
+# ★ 2026-08-17: GSdesk 統合方針により、ふうえいバディ単体のストア提出とサイト公開は
+#   停止中。単体アプリを並べると App Store ガイドライン4.3（重複アプリ）のリスクを
+#   自分で作ることになるため。したがって push による自動実行は外してある。
+#   （Pages 自体も未有効。有効化も統合方針の決着まで行わない）
+#
+# 公開を再開するときは、まず Settings→Pages の Source を GitHub Actions にしたうえで、
+# 下の on: に push トリガーを戻すか、Actions タブから手動実行する。
 # 公開するのはサイト3ページのみ（.claude/ や README は公開物に含めない）。
 name: Deploy GitHub Pages
 
 on:
-  push:
-    branches: [main]
+  # 手動実行のみ（自動公開はしない）。
   workflow_dispatch:
 
 permissions:
